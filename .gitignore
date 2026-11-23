@@ -1,0 +1,7 @@
+node_modules/
+dist/
+tmp/
+.astro/
+.env
+.env.*
+!.env.example

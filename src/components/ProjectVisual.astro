@@ -1,0 +1,51 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { project: CollectionEntry<'projects'>; compact?: boolean; }
+const { project, compact = false } = Astro.props;
+const p = project.data;
+---
+{p.image ? (
+  <figure class:list={['project-figure', { compact, 'centered-preview': project.id === 'arc' }]}>
+    <a class="screenshot-trigger" href={`${import.meta.env.BASE_URL}${p.image}`} aria-label={`Enlarge ${p.title} screenshot`} aria-haspopup="dialog">
+      <img src={`${import.meta.env.BASE_URL}${p.image}`} alt={p.imageAlt || p.title} width={p.imageWidth} height={p.imageHeight} loading="lazy" decoding="async" />
+    </a>
+    {!compact && <figcaption>{p.imageCaption}</figcaption>}
+    <dialog class="image-lightbox" aria-label={`${p.title} screenshot enlarged`}>
+      <button class="image-lightbox-dismiss" type="button" aria-label="Close enlarged screenshot">
+        <img src={`${import.meta.env.BASE_URL}${p.image}`} alt={p.imageAlt || p.title} width={p.imageWidth} height={p.imageHeight} loading="lazy" />
+        <span class="image-lightbox-hint">Click anywhere to close · Esc</span>
+      </button>
+    </dialog>
+  </figure>
+) : (
+  <figure class:list={['project-figure', 'workflow-figure', { compact }]}>
+    <div class="workflow-diagram" role="img" aria-label="ARC combines ready checks, inspection data, and peer reports into a roster with readiness verdicts and raid session reports.">
+      <span class="eyebrow">ARC / DATA FLOW</span>
+      <div class="workflow-inputs"><span>Ready checks</span><span>Inspection</span><span>Peer reports</span></div>
+      <span class="workflow-arrow" aria-hidden="true">↓</span>
+      <strong class="workflow-core">ARC roster & readiness</strong>
+      <span class="workflow-arrow" aria-hidden="true">↓</span>
+      <div class="workflow-outputs"><span>Readiness verdicts</span><span>Session reports</span></div>
+    </div>
+    <figcaption>Workflow diagram · not an in-game screenshot</figcaption>
+  </figure>
+)}
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('.screenshot-trigger').forEach(trigger => {
+    const dialog = trigger.parentElement?.querySelector<HTMLDialogElement>('.image-lightbox');
+    if (!dialog) return;
+    let previousOverflow = '';
+    trigger.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      dialog.showModal();
+    });
+    dialog.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('close', () => {
+      document.body.style.overflow = previousOverflow;
+      trigger.focus({ preventScroll: true });
+    });
+  });
+</script>
