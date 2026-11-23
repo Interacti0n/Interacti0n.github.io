@@ -27,15 +27,17 @@ npm run preview
 
 ## GitHub Pages and your GitHub profile
 
-These are two separate repositories:
+- Website: https://interacti0n.github.io/
+- Repository: https://github.com/Interacti0n/Interacti0n.github.io
+- Publishing: GitHub Pages uses GitHub Actions. Each push to `main` checks, builds, and deploys the portfolio through `.github/workflows/deploy.yml`.
+- Profile README: `docs/github-profile-README.md` is a separate draft for the public `Interacti0n/Interacti0n` repository. It is not automatically published with the website.
 
-1. **Website:** create `Interacti0n.github.io` in your GitHub account, put this project there on branch `main`, and choose **GitHub Actions** in Settings → Pages. The included workflow installs, checks, builds, and deploys. Your site will be `https://Interacti0n.github.io/`.
-2. **Profile README:** create a public repository named exactly `Interacti0n`. Copy `docs/github-profile-README.md` to that repository as `README.md` after publishing the site. This text appears on your GitHub profile. Add the portfolio URL to your profile's website field too.
+To publish a local update, review the changed files, commit them, and push `main`. Follow the deployment in the repository's Actions tab.
 
-A differently named website repository also works: the workflow obtains the correct base path from GitHub Pages. For local production-path verification, set `SITE_URL` and `BASE_PATH` before building. No account credentials or tokens belong in site source.
+The workflow obtains the origin and base path from GitHub Pages. For local production-path verification, set `SITE_URL` and `BASE_PATH` before building. No account credentials or tokens belong in site source.
 
 ## Before publishing
 
 Review public facts and contact links. Add employment dates or new responsibilities only when confirmed. Review the social sharing image and all external links.
 
-The site has no backend or client-side framework. Fonts use Google Fonts with local system fallbacks. Content and assets render as static HTML/CSS. Deployment remains unconfigured until connected to your GitHub repository.
+The site has no backend or client-side framework. Fonts use Google Fonts with local system fallbacks. Content and assets render as static HTML/CSS. Deployment is configured for the repository linked above.
